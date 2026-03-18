@@ -19,8 +19,6 @@ movies.sort(function (a, b) {
 
 //console.log(movies);
 
-//
-
 for (const movie of movies) {
   document.querySelector('#target').innerHTML +=
     `<li>${movie.nimi}, ${movie.arvosana}</li>`;
