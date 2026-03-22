@@ -1,6 +1,6 @@
 'use strict';
 
-const celsius = prompt('Enter temperature in Celsius:');
+const celsius = parseFloat(prompt('Enter temperature in Celsius:'));
 const fahrenheit = ((celsius * 9) / 5 + 32).toFixed(2);
 const kelvin = (celsius + 273.15).toFixed(2);
 
