@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Form Esimerkki</title>
+    <link href="form.css" rel="stylesheet" />
+  </head>
+  <body>
+    <form method="post">
+      <div></div>
+      <label for="name">Name:</label>
+      <input type="text" name="name" />
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" />
+
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" />
+
+      <label for="food"
+        >Favorite food:
+        <select id="food" name="food">
+          <option value="pizza">Pizza</option>
+          <option value="pasta">Pasta</option>
+          <option value="burger">Burger</option>
+          <option value="salad">Salad</option>
+          <option value="potato">Potato</option>
+          <option value="rice">Rice</option>
+          <option value="salad">Something else</option>
+        </select>
+      </label>
+
+      <button type="submit">Lähetä</button>
+      <button type="submit">tyhjennä</button>
+    </form>
+
+    <script>
+      const button = document.querySelector('button');
+
+      button.addEventListener('click', (event) => {
+        event.preventDefault();
+        console.log('event', event);
+      });
+
+      button.addEventListener('click', handleClick);
+    </script>
+  </body>
+</html>
