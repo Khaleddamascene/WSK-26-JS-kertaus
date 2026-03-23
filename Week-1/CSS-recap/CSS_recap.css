@@ -1,0 +1,94 @@
+/*
+Create a simple CSS file for the previous HTML exercise. Requirements:
+Use external style sheet.
+Don't use default font.
+Add hover effect to the link. Also don't use default color in the link and remove underline.
+Add border and rounded corners to the image.
+Every second row in the table should have a different background color.
+The list should not have default bullet points
+
+
+table {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th,
+td {
+  border: 1px solid black;
+  padding: 5px;
+}
+*/
+/* Apply custom font and basic styling */
+/* 1. Use a custom font (not default) */
+
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background-color: #f4f6f8;
+  margin: 20px;
+}
+
+/* Headings */
+#heading_div h1,
+#heading_div h2,
+#heading_div h3,
+#heading_div h4,
+#heading_div h5 {
+  color: #2c3e50;
+}
+
+/* 2. Link styling (no default color, no underline) */
+a {
+  color: #2980b9;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* Hover effect */
+a:hover {
+  color: #e74c3c;
+}
+
+/* 3. Image styling */
+#image_div img {
+  border: 3px solid #333;
+  border-radius: 12px;
+}
+
+/* 4. Table styling */
+table {
+  border: 1px solid black;
+  border-collapse: collapse;
+  width: 60%;
+  margin-top: 10px;
+}
+
+th,
+td {
+  border: 1px solid #999;
+  padding: 8px;
+}
+
+/* Every second row */
+tr:nth-child(even) {
+  background-color: #dfe6e9;
+}
+
+/* Header row */
+th {
+  background-color: #2c3e50;
+  color: white;
+}
+
+/* 5. Remove bullet points from lists */
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+/* Optional: style list items nicely */
+li {
+  background-color: #74b9ff;
+  margin: 5px 0;
+  padding: 8px;
+  border-radius: 6px;
+}
