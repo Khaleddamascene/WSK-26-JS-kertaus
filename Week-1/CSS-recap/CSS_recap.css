@@ -7,20 +7,9 @@ Add border and rounded corners to the image.
 Every second row in the table should have a different background color.
 The list should not have default bullet points
 
-
-table {
-  border: 1px solid black;
-  border-collapse: collapse;
-}
-th,
-td {
-  border: 1px solid black;
-  padding: 5px;
-}
-*/
 /* Apply custom font and basic styling */
-/* 1. Use a custom font (not default) */
 
+/* 1. Use a custom font (not default) */
 body {
   font-family: 'Segoe UI', Arial, sans-serif;
   background-color: #f4f6f8;
@@ -85,7 +74,7 @@ ul {
   padding: 0;
 }
 
-/* Optional: style list items nicely */
+/* Optional: style list items */
 li {
   background-color: #74b9ff;
   margin: 5px 0;
