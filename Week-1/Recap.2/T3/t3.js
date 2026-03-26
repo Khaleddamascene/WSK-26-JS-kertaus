@@ -38,3 +38,43 @@ Example Output:
 
 Even Numbers: None
 6p*/
+
+'use strict';
+
+// Array to store user input
+const numbers = [];
+
+while (true) {
+  let input = prompt("Enter a number (or 'done' to finish): ");
+  // Stop condition
+  if (input === null || input.toLowerCase() === 'done') {
+    break;
+  }
+
+  const num = Number(input);
+
+  if (!isNaN(num)) {
+    numbers.push(num);
+  } else {
+    alert('Please enter a valid number.');
+  }
+
+  console.log(numbers);
+
+  // Extract even numbers using for...of
+  const evenNumbers = [];
+
+  for (const num of numbers) {
+    if (num % 2 === 0) {
+      evenNumbers.push(num);
+    }
+  }
+
+  const resultDiv = document.getElementById('result');
+
+  if (evenNumbers.length > 0) {
+    resultDiv.textContent = `Even Numbers: ${evenNumbers.join(', ')}`;
+  } else {
+    resultDiv.textContent = `Even Numbers: None`;
+  }
+}
