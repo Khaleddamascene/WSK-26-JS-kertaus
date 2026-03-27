@@ -3,12 +3,12 @@ Write a JavaScript program that focuses on various array operations
 using the push(), includes(), pop(), and numerical sorting functions. 
 Your program should include the following requirements:
 
-Create an empty array called numbers.  1
+Create an empty array called numbers.
 
-Prompt the user to enter five numbers, one by one, 2
-and add each entered number to the numbers array using the push() method. 3
+Prompt the user to enter five numbers, one by one, 
+and add each entered number to the numbers array using the push() method.
 
-Display the contents of the numbers array on the HTML document or in the console. 4
+Display the contents of the numbers array on the HTML document or in the console.
 
 Prompt the user to enter a number and check if the entered number is included 
 in the numbers array using the includes() method.
@@ -42,8 +42,10 @@ Sorted Numbers: [3, 5, 7, 10]
 3p
 */
 
+// Create an empty array
 let numbers = [];
 
+// Prompt user to enter 5 numbers
 for (let i = 1; i <= 5; i++) {
   let input = prompt(`Enter Number ${i}:`);
   let num = parseFloat(input);
