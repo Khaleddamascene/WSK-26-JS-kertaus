@@ -6,6 +6,6 @@ body {
 }
 
 #map {
-  height: 50dvh;
+  height: 100dvh; /* or 100vh for full screen */
   width: 100dvw;
 }
