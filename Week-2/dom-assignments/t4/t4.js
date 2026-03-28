@@ -769,6 +769,17 @@ const restaurants = [
     __v: 0,
   },
 ];
+/*
+Open t4 folder in your IDE/editor. In the t4.js file, 
+you will find an array containing restaurant data,including their respective locations. 
+The objective of the application is to determine your current location. Then, the application should sort 
+the array of restaurants based on the distance from the nearest to the farthest. Finally, 
+the application should display a list of restaurants in order, starting with the nearest 
+and ending with the farthest. This list should include the names and addresses of the restaurants.
+
+You can use the formula for Euclidean distance from JS recap 1.2. It's not 100% accurate, since earth is not actually flat, 
+but for now it's close enough.
+*/
 
 // your code here
 for (const restaurant of restaurants) {
@@ -782,15 +793,3 @@ for (const restaurant of restaurants) {
   rivi.append(nimiSolu, osoiteSolu);
   document.querySelector('table').append(rivi);
 }
-/*
-for (let restaurant of restaurants) {
-   const rivi = document.createElement('tr');
-   const nimiSolu = document.createElement('td');
-   const osoiteSolu = document.createElement('td');
-
-   nimiSolu.innerText = restaurant.name;
-   osoiteSolu.innerText = restaurant.address;
-
-   rivi.append(nimiSolu, osoiteSolu);
-   document.querySelector("table").append(rivi);
-}*/
