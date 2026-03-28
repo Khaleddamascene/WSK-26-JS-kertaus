@@ -62,12 +62,14 @@ for (let i = 1; i <= 5; i++) {
 document.getElementById('numbers').textContent =
   'Numbers: [' + numbers.join(', ') + ']';
 
-// Ask user for a number to search
+// Prompt the user to enter a number and check if the entered number is included in the numbers array using the includes() method.
+//
+// Check if number to search
 let searchInput = prompt('Enter a Number to Search:');
 let searchNumber = parseFloat(searchInput);
 
-// Check if number exists
 if (numbers.includes(searchNumber)) {
+  //Display a message indicating whether the entered number is found or not found in the numbers array.
   document.getElementById('searchResult').textContent =
     `Number ${searchNumber} is found in the array.`;
 } else {
@@ -75,16 +77,16 @@ if (numbers.includes(searchNumber)) {
     `Number ${searchNumber} is NOT found in the array.`;
 }
 
-// Remove the last number
+//Remove the last number from the numbers array using the pop() method.
 numbers.pop();
 
-// Display updated array
+// display updated array
 document.getElementById('updated').textContent =
   'Updated Numbers: [' + numbers.join(', ') + ']';
 
-// Sort numerically
+//Sort the numbers array in ascending numerical order using the sort() method with a custom comparison function.
 numbers.sort((a, b) => a - b);
 
-// Display sorted array
+// display sorted array
 document.getElementById('sorted').textContent =
   'Sorted Numbers: [' + numbers.join(', ') + ']';

@@ -8,6 +8,7 @@ Display the contents of the fruits array in the console.
 Calculate and display the length of the fruits array.
 Access and display the element at index 2 in the fruits array in the console.
 Access and display the last element in the fruits array using the length property in the console.
+
 Create an empty array called vegetables.
 Prompt the user to enter three vegetables one by one, and add each entered vegetable 
 to the vegetables array using the push() method.
@@ -23,24 +24,20 @@ Vegetables: ["carrot", "broccoli", "cabbage"]
 Length of Vegetables: 3
 3p
 */
-
 'use strict';
-
-// Fruits array
-
+// fruits array
 const fruits = ['apple', 'banana', 'orange', 'grape', 'kiwi'];
 
-// Display fruits array
-console.log('Fruits:', fruits);
+console.log('Fruits: ', fruits);
 
-// Length of fruits array
-console.log('Length of Fruits:', fruits.length);
+// length of fruits array
+console.log('Lenght of Fruits: ', fruits.length);
 
-// Element at index 2
+// Elements at index 2
 console.log('Element at Index 2:', fruits[2]);
 
-// Last element using length
-console.log('Last Element of Fruits:', fruits[fruits.length - 1]);
+// Last elements using lenght
+console.log('Last Element of Fruits', fruits[fruits.length - 1]);
 
 // Display in HTML
 const resultDiv = document.getElementById('result');
@@ -49,18 +46,21 @@ output += `Length of Fruits: ${fruits.length}\n`;
 output += `Element at Index 2: ${fruits[2]}\n`;
 output += `Last Element of Fruits: ${fruits[fruits.length - 1]}\n\n`;
 
-// Vegetables array
+// Vegetables array  Create an empty array called vegetables.
 const vegetables = [];
 
-// Prompt user to enter 3 vegetables
+//Prompt the user to enter three vegetables one by one, and add each entered vegetable
 for (let i = 1; i <= 3; i++) {
   const veg = prompt(`Enter vegetable ${i}:`);
+  //to the vegetables array using the push() method.
   vegetables.push(veg);
 }
 
+//Display the contents of the vegetables array in the console.
 // Display vegetables array
-console.log('Vegetables:', vegetables);
-console.log('Length of Vegetables:', vegetables.length);
+console.log('Vegetables', vegetables);
+//Calculate and display the length of the vegetables array.
+console.log('Length of Vegetables', vegetables.length);
 
 output += `Vegetables: [${vegetables.join(', ')}]\n`;
 output += `Length of Vegetables: ${vegetables.length}`;
