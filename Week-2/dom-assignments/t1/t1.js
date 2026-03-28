@@ -28,3 +28,21 @@ const todoList = [
 ];
 
 // add your code here
+// Select the target ul element
+const targetList = document.querySelector('#todo-container');
+
+// Iterate through the todoList array
+todoList.forEach((todo) => {
+  // Use a ternary operator to add the 'checked' attribute if completed is true
+  const isChecked = todo.completed ? 'checked' : '';
+
+  // Construct the HTML string for the list item
+  const html = `
+    <li>
+      <input type="checkbox" id="todo-${todo.id}" ${isChecked}>
+      <label for="todo-${todo.id}">${todo.task}</label>
+    </li>`;
+
+  // Use insertAdjacentHTML to add the item to the end of the list
+  targetList.insertAdjacentHTML('beforeend', html);
+});
