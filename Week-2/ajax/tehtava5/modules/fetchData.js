@@ -8,3 +8,5 @@ const fetchData = async (url, options) => {
 
   return await data.json();
 };
+
+export default fetchData;
