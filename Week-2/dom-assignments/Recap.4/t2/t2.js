@@ -769,5 +769,86 @@ const restaurants = [
     __v: 0,
   },
 ];
+/*
+Open t2 folder in your IDE/editor. In the t2.js file, you will find an array containing restaurant data. 
+Your objective is to develop an application that displays a list of restaurants in alphabetical order based on their names. 
+The displayed list should include the names and addresses of the restaurants. Implement the following features in your application:
 
+a. Display the list of restaurants in alphabetical order, showing the restaurant names and addresses.
+
+b. Implement user interactivity as follows:
+
+Introduce a new CSS class named highlight. This class should be designed to alter visual attributes such 
+as background color or font weight, effectively highlighting the selected element.
+
+Utilize the classList property to dynamically add the highlight class to the clicked restaurant's HTML element.
+
+Ensure exclusive highlighting, meaning only the clicked restaurant's name should be highlighted. To achieve this, 
+remove the highlight class from other restaurant elements before adding it to the clicked element.
+
+c. The modal window should present detailed information about the selected restaurant, including:
+
+Restaurant name
+Address
+Postal code
+City
+Phone number
+Company
+Ensure that the modal window is appropriately styled and clearly displays the restaurant data.
+*/
 // your code here
+
+const taulukko = document.querySelector('#target');
+const modal = document.querySelector('#modal');
+const overlay = document.querySelector('#overlay');
+
+// Sort restaurants alphabetically by name
+restaurants.sort((a, b) =>
+  a.name.toUpperCase() > b.name.toUpperCase() ? 1 : -1
+);
+
+for (const restaurant of restaurants) {
+  const tr = document.createElement('tr');
+
+  tr.addEventListener('click', () => {
+    // Remove highlight from all rows
+    document
+      .querySelectorAll('.highlight')
+      .forEach((elem) => elem.classList.remove('highlight'));
+
+    // Highlight clicked row
+    tr.classList.add('highlight');
+
+    // Fill modal with restaurant details
+    modal.innerHTML = `
+      <h3>${restaurant.name}</h3>
+      <p><strong>Address:</strong> ${restaurant.address}</p>
+      <p><strong>Postal code:</strong> ${restaurant.postalCode}</p>
+      <p><strong>City:</strong> ${restaurant.city}</p>
+      <p><strong>Phone:</strong> ${restaurant.phone}</p>
+      <p><strong>Company:</strong> ${restaurant.company}</p>
+      <button id="closeModal">Close</button>
+    `;
+
+    // Show modal and overlay
+    modal.showModal();
+    overlay.classList.add('show');
+
+    // Close modal button functionality
+    document.querySelector('#closeModal').addEventListener('click', () => {
+      modal.close();
+      overlay.classList.remove('show');
+    });
+  });
+
+  // Table cells
+  const nameTd = document.createElement('td');
+  nameTd.innerText = restaurant.name;
+  const addressTd = document.createElement('td');
+  addressTd.innerText = restaurant.address;
+  const cityTd = document.createElement('td');
+  cityTd.innerText = restaurant.city;
+
+  tr.append(nameTd, addressTd, cityTd);
+  taulukko.append(tr);
+}
