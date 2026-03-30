@@ -2,7 +2,7 @@
 
 import fetchData from './modules/fetchData.js';
 import restaurantModal from './modules/restaurantModal.js';
-import resturantRow from './modules/restaurantRow.js';
+import restaurantRow from './modules/restaurantRow.js';
 
 const apiUrl = 'https://media2.edu.metropolia.fi/restaurant/api/v1';
 
@@ -31,6 +31,8 @@ const haePaivanMenu = async (id, lang) => {
 
 (async () => {
   const restaurants = await haeRavintolat();
+
+  console.log(restaurants);
   // restaurants aakkosjärjestykseen
   restaurants.sort((a, b) => {
     return a.name.toUpperCase() > b.name.toUpperCase() ? 1 : -1;
