@@ -1,5 +1,4 @@
 'use strict';
-
 import fetchData from './modules/fetchData.js';
 import restaurantModal from './modules/restaurantModal.js';
 import restaurantRow from './modules/restaurantRow.js';
@@ -12,7 +11,6 @@ const modal = document.querySelector('#modal');
 
 const haeRavintolat = async () => {
   try {
-    // eslint-disable-next-line no-undef
     return await fetchData(apiUrl + '/restaurants');
   } catch (error) {
     console.error(error);
@@ -21,8 +19,6 @@ const haeRavintolat = async () => {
 
 const haePaivanMenu = async (id, lang) => {
   try {
-    console.log(this);
-    // eslint-disable-next-line no-undef
     return await fetchData(apiUrl + `/restaurants/daily/${id}/${lang}`);
   } catch (error) {
     console.error(error);
@@ -31,16 +27,15 @@ const haePaivanMenu = async (id, lang) => {
 
 (async () => {
   const restaurants = await haeRavintolat();
-
-  console.log(restaurants);
   // restaurants aakkosjärjestykseen
-  restaurants.sort((a, b) => {
-    return a.name.toUpperCase() > b.name.toUpperCase() ? 1 : -1;
-  });
+  restaurants.sort((a, b) =>
+    a.name.toUpperCase() > b.name.toUpperCase() ? 1 : -1
+  );
 
   for (const restaurant of restaurants) {
     // rivi
-    const tr = document.createElement('tr');
+    const tr = restaurantRow(restaurant);
+
     tr.addEventListener('click', async () => {
       for (const elem of document.querySelectorAll('.highlight')) {
         elem.classList.remove('highlight');
@@ -55,7 +50,7 @@ const haePaivanMenu = async (id, lang) => {
 
       const pMenu = await haePaivanMenu(restaurant._id, 'fi');
 
-      const modalDOM = restaurantModal(restaurant.pMenu);
+      const modalDOM = restaurantModal(restaurant, pMenu);
 
       modal.append(modalDOM);
     });

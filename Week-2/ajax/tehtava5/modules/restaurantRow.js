@@ -1,4 +1,4 @@
-const resturantRow = (restaurant) => {
+const restaurantRow = (restaurant) => {
   const {name, address, city, company} = restaurant;
   const tr = document.createElement('tr');
   // nimisolu
@@ -10,12 +10,12 @@ const resturantRow = (restaurant) => {
   // kaupunkisolu
   const cityTd = document.createElement('td');
   cityTd.innerText = city;
-  // yrityssolu
+  // firmasolu
   const firmaTd = document.createElement('td');
-  firmaTd.innerText = company.name;
+  firmaTd.innerText = company;
   // lisätään solut riviin
   tr.append(nameTd, addressTd, cityTd, firmaTd);
   return tr;
 };
 
-export default resturantRow;
+export default restaurantRow;
