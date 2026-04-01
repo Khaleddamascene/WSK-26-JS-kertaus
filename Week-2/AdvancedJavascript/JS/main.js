@@ -1,3 +1,4 @@
+// main.js
 import {baseUrl} from '../JS/variables.js';
 import {fetchData} from '../JS/utils.js';
 import {restaurantRow, restaurantModal} from '../JS/comopnents.js';
@@ -9,12 +10,14 @@ const btnAll = document.querySelector('#btn-all');
 const btnSodexo = document.querySelector('#btn-sodexo');
 const btnCompass = document.querySelector('#btn-compass');
 
-const getRestaurants = async () => {
-  return await fetchData(`${baseUrl}/restaurants`);
-};
+const filterBtns = [btnAll, btnSodexo, btnCompass];
 
-const getDailyMenu = async (id, lang) => {
-  return await fetchData(`${baseUrl}/restaurants/daily/${id}/${lang}`);
+// -------------------------
+// Apufunktiot
+// -------------------------
+const setActive = (btn) => {
+  filterBtns.forEach((b) => b.classList.remove('active'));
+  btn.classList.add('active');
 };
 
 const showError = (message) => {
@@ -22,58 +25,61 @@ const showError = (message) => {
 };
 
 const clearTable = () => {
-  const rows = document.querySelectorAll('tr:not(:first-child)');
-  rows.forEach((row) => row.remove());
+  document
+    .querySelectorAll('tr:not(:first-child)')
+    .forEach((row) => row.remove());
 };
 
-const filterBtns = [btnAll, btnSodexo, btnCompass];
+const getRestaurants = async () => await fetchData(`${baseUrl}/restaurants`);
+const getDailyMenu = async (id, lang) =>
+  await fetchData(`${baseUrl}/restaurants/daily/${id}/${lang}`);
 
-const setActive = (btn) => {
-  filterBtns.forEach((b) => b.classList.remove('active'));
-  btn.classList.add('active');
-};
-
+// -------------------------
+// Renderöinti
+// -------------------------
 const renderRestaurants = (restaurants) => {
   clearTable();
 
-  if (restaurants.length === 0) {
+  if (!restaurants?.length) {
     showError('Ei ravintoloita valitulla suodattimella.');
     return;
   }
 
-  restaurants
-    .map((restaurant) => {
-      const tr = restaurantRow(restaurant);
+  restaurants.forEach((restaurant) => {
+    const tr = restaurantRow(restaurant);
 
-      tr.addEventListener('click', async () => {
-        document.querySelectorAll('.highlight').forEach((el) => {
-          el.classList.remove('highlight');
-        });
+    tr.addEventListener('click', async () => {
+      // Poistetaan highlight kaikista
+      document
+        .querySelectorAll('.highlight')
+        .forEach((el) => el.classList.remove('highlight'));
+      tr.classList.add('highlight');
 
-        tr.classList.add('highlight');
-        modal.innerHTML = '';
-        modal.showModal();
+      modal.innerHTML = '';
+      modal.showModal();
 
-        const menu = await getDailyMenu(restaurant._id, 'fi');
+      // Hae menu
+      const menu = await getDailyMenu(restaurant._id, 'fi');
 
-        if (!menu || !menu.courses) {
-          modal.innerHTML = '<p>⚠️ Menua ei saatavilla tänään.</p>';
-        } else {
-          modal.innerHTML = restaurantModal(restaurant, menu);
-        }
+      modal.innerHTML = !menu?.courses
+        ? '<p>⚠️ Menua ei saatavilla tänään.</p>'
+        : restaurantModal(restaurant, menu);
 
-        const closeBtn = document.createElement('button');
-        closeBtn.id = 'closeBtn';
-        closeBtn.innerText = 'Sulje';
-        closeBtn.addEventListener('click', () => modal.close());
-        modal.appendChild(closeBtn);
-      });
+      // Lisää sulje-nappi
+      const closeBtn = document.createElement('button');
+      closeBtn.id = 'closeBtn';
+      closeBtn.innerText = 'Sulje';
+      closeBtn.addEventListener('click', () => modal.close());
+      modal.appendChild(closeBtn);
+    });
 
-      return tr;
-    })
-    .forEach((tr) => table.appendChild(tr));
+    table.appendChild(tr);
+  });
 };
 
+// -------------------------
+// Init
+// -------------------------
 (async () => {
   const restaurants = await getRestaurants();
 
@@ -83,9 +89,11 @@ const renderRestaurants = (restaurants) => {
   }
 
   const sorted = restaurants.sort((a, b) => a.name.localeCompare(b.name));
+
   renderRestaurants(sorted);
   setActive(btnAll);
 
+  // Filter-napit
   btnAll.addEventListener('click', () => {
     setActive(btnAll);
     renderRestaurants(sorted);
@@ -93,13 +101,11 @@ const renderRestaurants = (restaurants) => {
 
   btnSodexo.addEventListener('click', () => {
     setActive(btnSodexo);
-    const sodexo = sorted.filter((r) => r.company === 'Sodexo');
-    renderRestaurants(sodexo);
+    renderRestaurants(sorted.filter((r) => r.company === 'Sodexo'));
   });
 
   btnCompass.addEventListener('click', () => {
     setActive(btnCompass);
-    const compass = sorted.filter((r) => r.company === 'Compass Group');
-    renderRestaurants(compass);
+    renderRestaurants(sorted.filter((r) => r.company === 'Compass Group'));
   });
 })();
