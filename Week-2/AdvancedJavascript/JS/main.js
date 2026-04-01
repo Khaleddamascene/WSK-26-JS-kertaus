@@ -62,7 +62,7 @@ const renderRestaurants = (restaurants) => {
       const menu = await getDailyMenu(restaurant._id, 'fi');
 
       modal.innerHTML = !menu?.courses
-        ? '<p>⚠️ Menua ei saatavilla tänään.</p>'
+        ? '<p>Menua ei saatavilla tänään.</p>'
         : restaurantModal(restaurant, menu);
 
       // Lisää sulje-nappi
