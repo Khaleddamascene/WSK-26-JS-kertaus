@@ -1,7 +1,7 @@
 // main.js
-import {baseUrl} from '../JS/variables.js';
-import {fetchData} from '../JS/utils.js';
-import {restaurantRow, restaurantModal} from '../JS/comopnents.js';
+import {baseUrl} from './variables.js';
+import {fetchData} from './utils.js';
+import {restaurantRow, restaurantModal} from './comopnents.js';
 
 const table = document.querySelector('#target');
 const modal = document.querySelector('#modal');
@@ -9,103 +9,117 @@ const modal = document.querySelector('#modal');
 const btnAll = document.querySelector('#btn-all');
 const btnSodexo = document.querySelector('#btn-sodexo');
 const btnCompass = document.querySelector('#btn-compass');
-
 const filterBtns = [btnAll, btnSodexo, btnCompass];
 
+let restaurants = []; // store fetched restaurants
+
 // -------------------------
-// Apufunktiot
+// Helper functions
 // -------------------------
+
+// Set active button highlight
 const setActive = (btn) => {
   filterBtns.forEach((b) => b.classList.remove('active'));
   btn.classList.add('active');
 };
 
+// Show error in table
 const showError = (message) => {
   table.innerHTML = `<tr><td colspan="3">${message}</td></tr>`;
 };
 
+// Clear all table rows except header
 const clearTable = () => {
   document
     .querySelectorAll('tr:not(:first-child)')
     .forEach((row) => row.remove());
 };
 
+// Fetch all restaurants
 const getRestaurants = async () => await fetchData(`${baseUrl}/restaurants`);
-const getDailyMenu = async (id, lang) =>
+
+// Fetch daily menu for a restaurant
+const getDailyMenu = async (id, lang = 'fi') =>
   await fetchData(`${baseUrl}/restaurants/daily/${id}/${lang}`);
 
 // -------------------------
-// Renderöinti
+// Render functions
 // -------------------------
-const renderRestaurants = (restaurants) => {
+
+// Render restaurants into table
+const renderRestaurants = (restaurantsToRender) => {
   clearTable();
 
-  if (!restaurants?.length) {
-    showError('Ei ravintoloita valitulla suodattimella.');
+  if (!restaurantsToRender?.length) {
+    showError('No restaurants found for the selected filter.');
     return;
   }
 
-  restaurants.forEach((restaurant) => {
-    const tr = restaurantRow(restaurant);
+  restaurantsToRender
+    .map((restaurant) => {
+      const tr = restaurantRow(restaurant);
 
-    tr.addEventListener('click', async () => {
-      // Poistetaan highlight kaikista
-      document
-        .querySelectorAll('.highlight')
-        .forEach((el) => el.classList.remove('highlight'));
-      tr.classList.add('highlight');
+      tr.addEventListener('click', async () => {
+        // Remove highlight from all rows
+        document
+          .querySelectorAll('.highlight')
+          .forEach((el) => el.classList.remove('highlight'));
+        tr.classList.add('highlight');
 
-      modal.innerHTML = '';
-      modal.showModal();
+        modal.innerHTML = '';
+        modal.showModal();
 
-      // Hae menu
-      const menu = await getDailyMenu(restaurant._id, 'fi');
+        // Fetch menu
+        const menu = await getDailyMenu(restaurant._id);
 
-      modal.innerHTML = !menu?.courses
-        ? '<p>Menua ei saatavilla tänään.</p>'
-        : restaurantModal(restaurant, menu);
+        modal.innerHTML = !menu?.courses
+          ? '<p>Menua ei saatavilla tänään.</p>'
+          : restaurantModal(restaurant, menu);
 
-      // Lisää sulje-nappi
-      const closeBtn = document.createElement('button');
-      closeBtn.id = 'closeBtn';
-      closeBtn.innerText = 'Sulje';
-      closeBtn.addEventListener('click', () => modal.close());
-      modal.appendChild(closeBtn);
-    });
+        // Add close button
+        const closeBtn = document.createElement('button');
+        closeBtn.id = 'closeBtn';
+        closeBtn.innerText = 'Sulje';
+        closeBtn.addEventListener('click', () => modal.close());
+        modal.appendChild(closeBtn);
+      });
 
-    table.appendChild(tr);
-  });
+      return tr;
+    })
+    .forEach((tr) => table.appendChild(tr));
+};
+
+// Higher-order function for filtering and rendering
+const filterAndRender = (filterFn, btn) => {
+  setActive(btn);
+  const filtered = restaurants.filter(filterFn);
+  renderRestaurants(filtered);
 };
 
 // -------------------------
-// Init
+// Initialization
 // -------------------------
 (async () => {
-  const restaurants = await getRestaurants();
+  restaurants = await getRestaurants();
 
   if (!restaurants) {
-    showError('Ravintoloiden haku epäonnistui. Yritä myöhemmin uudelleen.');
+    showError('Failed to fetch restaurants. Please try again later.');
     return;
   }
 
-  const sorted = restaurants.sort((a, b) => a.name.localeCompare(b.name));
+  // Sort restaurants alphabetically
+  restaurants.sort((a, b) => a.name.localeCompare(b.name));
 
-  renderRestaurants(sorted);
+  // Render all initially
+  renderRestaurants(restaurants);
   setActive(btnAll);
 
-  // Filter-napit
-  btnAll.addEventListener('click', () => {
-    setActive(btnAll);
-    renderRestaurants(sorted);
-  });
-
-  btnSodexo.addEventListener('click', () => {
-    setActive(btnSodexo);
-    renderRestaurants(sorted.filter((r) => r.company === 'Sodexo'));
-  });
-
-  btnCompass.addEventListener('click', () => {
-    setActive(btnCompass);
-    renderRestaurants(sorted.filter((r) => r.company === 'Compass Group'));
-  });
+  // Attach filter button events
+  btnAll.addEventListener('click', () => filterAndRender(() => true, btnAll));
+  btnSodexo.addEventListener('click', () =>
+    filterAndRender((r) => r.company === 'Sodexo', btnSodexo)
+  );
+  btnCompass.addEventListener('click', () =>
+    filterAndRender((r) => r.company === 'Compass Group', btnCompass)
+  );
 })();
